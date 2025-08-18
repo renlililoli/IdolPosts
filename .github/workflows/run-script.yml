@@ -60,8 +60,7 @@ jobs:
           subject: IdolPosts
           to: ${{ secrets.SMTP_USER }}
           from: ${{ secrets.SMTP_USER }}
-          body: |
-            $(cat database/result.jsonl)
+          body_file: database/result.jsonl
           secure: true
 
 
