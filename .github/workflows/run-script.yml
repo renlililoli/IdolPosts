@@ -33,6 +33,7 @@ jobs:
           cd python/config
           echo $PWD
           python -m weibo_spider --output_dir="./weibo"
-          cd ../..
+          ls -R
+          cd ..
           echo $PWD
-          python python/main.py
+          python main.py
