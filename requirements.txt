@@ -1,2 +1,2 @@
 jieba
-weibo-spider=0.3.0
+weibo-spider==0.3.0
