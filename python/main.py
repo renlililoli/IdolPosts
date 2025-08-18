@@ -47,7 +47,7 @@ def extract_repost_content(text: str) -> str | None:
     return None
 
 # 文件路径
-filename = "python/config/weibo/7716940453/7716940453.json"
+filename = "./python/config/weibo/7716940453/7716940453.json"
 with open(filename, "r", encoding="utf-8") as f:
     data = json.load(f)
 
