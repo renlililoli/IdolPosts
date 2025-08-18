@@ -57,8 +57,8 @@ jobs:
           server_port: 465
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: GitHub Workflow Result
-          to: target_email@example.com
+          subject: IdolPosts
+          to: ${{ secrets.SMTP_USER }}
           from: ${{ secrets.SMTP_USER }}
           body: |
             $(cat database/result.jsonl)
