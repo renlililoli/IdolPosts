@@ -27,6 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # 如果有依赖
           cd python/weiboSpider
+          pip install -r requirements.txt
           pip install .
           cd ../..
 
