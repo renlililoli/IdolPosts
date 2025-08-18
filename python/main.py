@@ -47,13 +47,13 @@ def extract_repost_content(text: str) -> str | None:
     return None
 
 # 文件路径
-filename = "./python/config/weibo/7716940453/7716940453.json"
+filename = "./config/weibo/7716940453/7716940453.json"
 with open(filename, "r", encoding="utf-8") as f:
     data = json.load(f)
 
 # 输出文件
-os.makedirs("database", exist_ok=True)  # 确保 database 目录存在
-output_file = "database/result.jsonl"   # JSON Lines 文件
+os.makedirs("../database", exist_ok=True)  # 确保 database 目录存在
+output_file = "../database/result.jsonl"   # JSON Lines 文件
 
 for day_data in data["weibo"]:
     content = day_data["content"]
