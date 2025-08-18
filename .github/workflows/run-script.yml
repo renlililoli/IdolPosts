@@ -51,7 +51,7 @@ jobs:
 
       - name: Render JSONL to HTML
         run: |
-          python python/render_jsonl_to_html.py
+          python python/render.py
 
       - name: Send email
         uses: dawidd6/action-send-mail@v3
