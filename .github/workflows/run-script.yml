@@ -38,12 +38,13 @@ jobs:
           echo $PWD
           python main.py
 
-      - name: Commit results
+      - name: Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add database/
           git add python/config/user_id_list.txt
           git commit -m "Update database from workflow" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/renlililoli/IdolPosts.git HEAD:main
+
 
