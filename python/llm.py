@@ -76,9 +76,7 @@ for record in input_records:
         llm_result = call_baidu_llm(prompt)
         # 百度 LLM 输出文本通常在 choices[0].message.content
         llm_text = llm_result.get("choices", [{}])[0].get("message", {}).get("content", "")
-        start = len("```json")
-        end = len("```")
-        llm_text = llm_text[start:-end]
+        llm_text = llm_text.replace("```json", "").replace("```", "").strip()
         print(llm_text)
         # 尝试解析为 JSON
         try:
