@@ -31,14 +31,14 @@ jobs:
           cp python/page_parser.py $(dirname $(which python))/../lib/*/*/weibo_spider/parser/page_parser.py
           cp python/util.py $(dirname $(which python))/../lib/*/*/weibo_spider/parser/util.py
 
-      - name: Run script
-        run: |
-          cd python/config
-          python -m weibo_spider --output_dir="./weibo"
-          ls -R
-          cd ..
-          echo $PWD
-          python generate_json.py
+      # - name: Run spider
+      #   run: |
+      #     cd python/config
+      #     python -m weibo_spider --output_dir="./weibo"
+      #     ls -R
+      #     cd ..
+      #     echo $PWD
+      #     python generate_json.py
 
       # - name: Render JSONL to HTML
       #   run: |
