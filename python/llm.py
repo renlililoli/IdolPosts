@@ -62,10 +62,10 @@ for record in input_records:
 
     prompt = f"""
 提取微博内容中的以下字段:
-1. live日期
-2. live地点
-3. 团体全员
-4. 正文 (保持换行美观)
+1. live日期 (输出的json中对应的key用 live_date 替换)
+2. live地点 (输出的json中对应的key用 live_location 替换)
+3. 团体全员 (输出的json中对应的key用 groups 替换)
+4. 正文(输出的json中对应的key用 main_text 替换) (保持换行美观)
 **请给我jsonl格式, 不要有任何不能被json.loads加载的字段**!!!
 请不要在开头和结尾生成形如```,json 的字符, 以正常的大括号作为开头结尾
 
@@ -85,10 +85,10 @@ for record in input_records:
             extracted = json.loads(llm_text)
         except json.JSONDecodeError:
             extracted = {
-                "live日期": "",
-                "live地点": "",
-                "团体全员": "",
-                "正文": llm_text.strip()
+                "live_date": "",
+                "live_location": "",
+                "groups": "",
+                "main_text": llm_text.strip()
             }
         # 合并原始信息
         final_record = {
