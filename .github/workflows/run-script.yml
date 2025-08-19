@@ -46,7 +46,7 @@ jobs:
 
       - name: Call LLM
         run: |
-          TODAY=$(date +%y-%m-%d)
+          TODAY=$(date +%Y-%m-%d)
           python python/llm.py --apikey ${{ secrets.BAIDU_API_KEY }} --input "database/json/result_${TODAY}.json"
 
 
