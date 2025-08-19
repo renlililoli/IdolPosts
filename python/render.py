@@ -25,7 +25,7 @@ for entry in db.all():
     except ValueError:
         continue
 
-    if ten_days_ago <= live_datetime <= today:
+    if ten_days_ago <= live_datetime:
         entry["_date_obj"] = live_datetime
         recent_entries.append(entry)
 

@@ -4,6 +4,9 @@ import jieba
 import os
 from datetime import datetime
 
+with open("./config/user_id_list.txt", "w", encoding="utf-8") as f:
+    f.write("7716940453 地下偶像相关揭示板")
+
 # 地点列表, 用来判断是否位于上海
 cities = [
     "上海",
@@ -66,5 +69,5 @@ for day_data in data["weibo"]:
                 "content": main_text                      # 转发内容
             }
             # 写入 JSON Lines 文件
-            with open(output_file, "w", encoding="utf-8") as f_out:
+            with open(output_file, "a", encoding="utf-8") as f_out:
                 f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
