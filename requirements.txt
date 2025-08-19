@@ -1,2 +1,3 @@
 jieba
 weibo-spider==0.3.0
+tinydb

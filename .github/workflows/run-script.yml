@@ -40,9 +40,14 @@ jobs:
           echo $PWD
           python main.py
 
-      - name: Render JSONL to HTML
+      # - name: Render JSONL to HTML
+      #   run: |
+      #     python python/render.py
+
+      - name: Call LLM
         run: |
-          python python/render.py
+          python python/llm.py --apikey ${{ secrets.BAIDU_API_KEY }} --input database/json/result_${date +%y-%m-%d}.json
+
 
       - name: Push changes
         run: |
@@ -53,18 +58,18 @@ jobs:
           git commit -m "Update database from workflow" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/renlililoli/IdolPosts.git HEAD:main
 
-      - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.163.com
-          server_port: 465
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          subject: IdolPosts
-          to: ${{ secrets.SMTP_USER }}
-          from: ${{ secrets.SMTP_USER }}
-          body: "请查看附件: result.html"
-          attachments: database/today/result.html
-          secure: true
+      # - name: Send email
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: smtp.163.com
+      #     server_port: 465
+      #     username: ${{ secrets.SMTP_USER }}
+      #     password: ${{ secrets.SMTP_PASSWORD }}
+      #     subject: IdolPosts
+      #     to: ${{ secrets.SMTP_USER }}
+      #     from: ${{ secrets.SMTP_USER }}
+      #     body: "请查看附件: result.html"
+      #     attachments: database/today/result.html
+      #     secure: true
 
 
