@@ -47,7 +47,7 @@ jobs:
       - name: Call LLM
         run: |
           TODAY=$(date +%Y-%m-%d)
-          python python/llm.py --apikey ${{ secrets.BAIDU_API_KEY }} --input "database/json/result_${TODAY}.json"
+          python python/llm.py --apikey ${{ secrets.BAIDU_API_KEY }} --input "database/json/result_${TODAY}.jsonl"
 
 
       - name: Push changes
