@@ -4,8 +4,26 @@ import jieba
 import os
 from datetime import datetime
 
-# 城市列表
-cities = ["上海"]
+# 地点列表, 用来判断是否位于上海
+cities = [
+    "上海",
+    "育音堂",
+    "新歌空间",
+    "世界树", "第一百货"
+    "聚一场", "上海广场",
+    "瓦肆",
+    "MAO", "mao", "Mao"
+    "cave", "Cave", "CAVE",
+    "星偶界",
+    "theboxx", "the boxx", "城市乐园",
+    "九六广场", "九六",
+    "环球港",
+    "万代南梦宫", "未来剧场", "梦想剧场", "浅水湾",
+    "rojo", "ROJO", "Rojo",
+    "安可空间", "意空间见",
+    "次乐园", "小南门",
+
+    ]
 
 def extract_repost_content(text: str) -> str | None:
     """
