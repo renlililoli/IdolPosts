@@ -65,6 +65,6 @@ for day_data in data["weibo"]:
                 "date": day_data.get("created_at", ""),   # 微博创建日期
                 "content": main_text                      # 转发内容
             }
-            # 追加写入 JSON Lines 文件
-            with open(output_file, "a", encoding="utf-8") as f_out:
+            # 写入 JSON Lines 文件
+            with open(output_file, "w", encoding="utf-8") as f_out:
                 f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
