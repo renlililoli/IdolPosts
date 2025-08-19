@@ -52,6 +52,7 @@ with open(INPUT_FILE, "r", encoding="utf-8") as f:
 new_records = []
 
 for record in input_records:
+    print(record)
     content = record.get("content", "")
     weibo_id = record.get("weibo_id", "")
 
