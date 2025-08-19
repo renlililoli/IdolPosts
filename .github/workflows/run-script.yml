@@ -40,6 +40,10 @@ jobs:
           echo $PWD
           python main.py
 
+      - name: Render JSONL to HTML
+        run: |
+          python python/render.py
+
       - name: Push changes
         run: |
           git config user.name "github-actions[bot]"
@@ -49,23 +53,19 @@ jobs:
           git commit -m "Update database from workflow" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/renlililoli/IdolPosts.git HEAD:main
 
-      - name: Render JSONL to HTML
-        run: |
-          python python/render.py
-
-      - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          persist-credentials: false  # 禁用默认 GITHUB_TOKEN
-          server_address: smtp.163.com
-          server_port: 465
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          subject: IdolPosts
-          to: ${{ secrets.SMTP_USER }}
-          from: ${{ secrets.SMTP_USER }}
-          body: "请查看附件: database/result.html"
-          attachments: database/result.html
-          secure: true
+      # - name: Send email
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     persist-credentials: false  # 禁用默认 GITHUB_TOKEN
+      #     server_address: smtp.163.com
+      #     server_port: 465
+      #     username: ${{ secrets.SMTP_USER }}
+      #     password: ${{ secrets.SMTP_PASSWORD }}
+      #     subject: IdolPosts
+      #     to: ${{ secrets.SMTP_USER }}
+      #     from: ${{ secrets.SMTP_USER }}
+      #     body: "请查看附件: database/result.html"
+      #     attachments: database/result.html
+      #     secure: true
 
 
