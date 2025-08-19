@@ -1,9 +1,9 @@
 name: Run Python Script
 
 on:
-  push:          # 每次 push 时触发
-    branches:
-      - main     # 仅当 push 到 main 分支时触发
+  # push:          # 每次 push 时触发
+  #   branches:
+  #     - main     # 仅当 push 到 main 分支时触发
   schedule:
     # 每天 UTC 时间 0 点运行一次 (cron 语法)
     - cron: "0 0 * * *"
