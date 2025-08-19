@@ -62,7 +62,7 @@ for record in input_records:
 
     prompt = f"""
 提取微博内容中的以下字段:
-1. live日期 (输出的json中对应的key用 live_date 替换)
+1. live日期 (输出的json中对应的key用 live_date 替换) 请注意日期请按照%Y-%m-%d格式输出, 如2023-08-22
 2. live地点 (输出的json中对应的key用 live_location 替换)
 3. 团体全员 (输出的json中对应的key用 groups 替换)
 4. 正文(输出的json中对应的key用 main_text 替换) (保持换行美观)

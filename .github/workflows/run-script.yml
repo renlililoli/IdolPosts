@@ -39,15 +39,17 @@ jobs:
       #     cd ..
       #     echo $PWD
       #     python generate_json.py
+      #     cd ..
 
-      # - name: Render JSONL to HTML
-      #   run: |
-      #     python python/render.py
 
       - name: Call LLM
         run: |
           TODAY=$(date +%Y-%m-%d)
           python python/llm.py --apikey ${{ secrets.BAIDU_API_KEY }} --input "database/json/result_${TODAY}.jsonl"
+
+      - name: Render to html
+        run: |
+          python python/render.py
 
 
       - name: Push changes
