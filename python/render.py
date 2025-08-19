@@ -55,11 +55,16 @@ body {{ font-family: "微软雅黑", sans-serif; background-color: #f7f7f7; padd
 for entry in recent_entries:
     groups = ', '.join(entry.get('groups', [])) if entry.get('groups') else ''
     main_text = entry.get('main_text', '').replace('\n', '<br>')
+    url = entry.get('url', '')  # 取出url
+    
+    url_html = f'<a href="{url}" target="_blank">🔗 原文链接</a>' if url else ''
+    
     html_content += f"""
 <div class="card">
   <h2>{entry.get('live_date', '')} - {entry.get('live_location', '')}</h2>
   <p class="groups">团体: {groups}</p>
   <p>{main_text}</p>
+  <p>{url_html}</p>
 </div>
 """
 
