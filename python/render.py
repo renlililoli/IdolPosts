@@ -79,5 +79,5 @@ def make_summary_html(output_path, dates):
     print(f"生成总汇总文件: {output_path}")
 
 
-make_summary_html(summary_html, valid_dates)
-make_summary_html(today_html, valid_dates)
+make_summary_html(summary_html, reversed(valid_dates))
+make_summary_html(today_html, reversed(valid_dates))
