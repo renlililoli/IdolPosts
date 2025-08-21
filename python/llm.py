@@ -78,15 +78,18 @@ for record in input_records:
     print(record)
     content = record.get("content", "")
     weibo_id = record.get("weibo_id", "")
+    publish_time = record.get("date", "")
 
     prompt = f"""
 提取微博内容中的以下字段:
-1. live日期 (输出的json中对应的key用 live_date 替换) 请注意日期请按照%Y-%m-%d格式输出, 如2023-08-22
+1. live日期 (输出的json中对应的key用 live_date 替换) 请注意日期请按照%Y-%m-%d格式输出, 如xxxx-xx-xx
 2. live地点 (输出的json中对应的key用 live_location 替换)
 3. 团体全员 (输出的json中对应的key用 groups 替换)
 4. 正文(输出的json中对应的key用 main_text 替换) (保持换行美观)
 **请给我jsonl格式, 不要有任何不能被json.loads加载的字段**!!!
 请不要在开头和结尾生成形如```,json 的字符, 以正常的大括号作为开头结尾
+请一定注意年份不要错了, 时间准确是最重要的内容,
+如果原文没有写年份, 请自行根据原文的publish_time={publish_time}推断
 
 如果没有某个字段，请留空。内容如下：
 {content}

@@ -65,7 +65,7 @@ for day_data in data["weibo"]:
             record = {
                 "weibo_id": day_data.get("id", ""),       # 微博 ID
                 "url": "https://weibo.cn/comment/" + day_data.get("id", ""),  # 微博 URL
-                "date": day_data.get("created_at", ""),   # 微博创建日期
+                "date": day_data.get("publish_time", ""),   # 微博创建日期
                 "content": main_text                      # 转发内容
             }
             # 写入 JSON Lines 文件
