@@ -33,12 +33,13 @@ jobs:
 
       - name: Run spider
         run: |
-          cd python/config
+          cd python
+          python write_cookie.py "${{ secrets.WEIBO_COOKIE }}"
+          cd config
           python -m weibo_spider --output_dir="./weibo"
           ls -R
           cd ..
           echo $PWD
-          python write_cookie.py "${{ secrets.WEIBO_COOKIE }}"
           python generate_json.py
           cd ..
 
