@@ -42,7 +42,7 @@ for fname in os.listdir(db_dir):
 valid_dates.sort()
 
 # 逐日生成模块化 HTML 文件
-for file_date in valid_dates:
+for file_date in reversed(valid_dates):
     db_path = os.path.join(db_dir, f"{file_date}.json")
     db = TinyDB(db_path)
 
@@ -105,7 +105,7 @@ def make_summary_html(output_path, dates):
     for d in dates:
         summary += f"""
 <h2>{d}</h2>
-<iframe src="{d}.html" width="100%" height="600px" 
+<iframe src="/live/{d}.html" width="100%" height="600px" 
         style="border:1px solid #ccc; border-radius:8px; margin-bottom:20px;"></iframe>
 """
 
