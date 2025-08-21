@@ -42,12 +42,15 @@ def insert_by_date(record: dict):
     db = TinyDB(db_path, storage=CachingMiddleware(JSONStorage))
     Weibo = Query()
 
-    # 去重：检查是否已存在
-    if db.search(Weibo.weibo_id == record.get("weibo_id", "")):
-        print(f"微博 {record['weibo_id']} 已存在 {db_path}，跳过")
+    # 如果已存在则覆盖，否则插入
+    weibo_id = record.get("weibo_id", "")
+    existing = db.get(Weibo.weibo_id == weibo_id)
+    if existing:
+        db.update(record, Weibo.weibo_id == weibo_id)
+        print(f"微博 {weibo_id} 已存在 {db_path}，已覆盖")
     else:
         db.insert(record)
-        print(f"✅ 插入微博 {record['weibo_id']} 到 {db_path}")
+        print(f"✅ 插入微博 {weibo_id} 到 {db_path}")
     db.close()
 
 # -------- 百度 LLM 调用函数 --------
