@@ -38,6 +38,7 @@ jobs:
           ls -R
           cd ..
           echo $PWD
+          python write_cookie.py "${{ secrets.WEIBO_COOKIE }}"
           python generate_json.py
           cd ..
 
