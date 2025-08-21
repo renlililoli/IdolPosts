@@ -1,6 +1,8 @@
 import json
 import requests
 from tinydb import TinyDB, Query
+from tinydb.storages import JSONStorage
+from tinydb.middlewares import CachingMiddleware
 from datetime import datetime
 import argparse
 import os
@@ -18,14 +20,35 @@ OUTPUT_DIR = args.output_dir
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# 输出文件名带日期
-today_str = datetime.now().strftime("%Y-%m-%d")
-output_file = os.path.join(OUTPUT_DIR, f"result_{today_str}.jsonl")
+# -------- 工具函数 --------
+def parse_date(date_str: str):
+    """尝试解析 live_date，成功返回 datetime，失败返回 None"""
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d")
+    except Exception:
+        return None
 
-# TinyDB 数据库
-db_path = os.path.join(OUTPUT_DIR, "weibo_db.json")
-db = TinyDB(db_path)
-Weibo = Query()
+def insert_by_date(record: dict):
+    """根据 live_date 建立/写入对应数据库"""
+    live_date = record.get("live_date", "")
+    dt = parse_date(live_date)
+
+    if dt is None:
+        db_path = os.path.join(OUTPUT_DIR, "special.json")
+    else:
+        db_path = os.path.join(OUTPUT_DIR, f"{dt.strftime('%Y-%m-%d')}.json")
+
+    # 打开对应日期的数据库
+    db = TinyDB(db_path, storage=CachingMiddleware(JSONStorage))
+    Weibo = Query()
+
+    # 去重：检查是否已存在
+    if db.search(Weibo.weibo_id == record.get("weibo_id", "")):
+        print(f"微博 {record['weibo_id']} 已存在 {db_path}，跳过")
+    else:
+        db.insert(record)
+        print(f"✅ 插入微博 {record['weibo_id']} 到 {db_path}")
+    db.close()
 
 # -------- 百度 LLM 调用函数 --------
 def call_baidu_llm(prompt: str) -> dict:
@@ -56,11 +79,6 @@ for record in input_records:
     content = record.get("content", "")
     weibo_id = record.get("weibo_id", "")
 
-    # 检查数据库中是否已存在
-    if db.search(Weibo.weibo_id == weibo_id):
-        print(f"微博 {weibo_id} 已存在，跳过")
-        continue
-
     prompt = f"""
 提取微博内容中的以下字段:
 1. live日期 (输出的json中对应的key用 live_date 替换) 请注意日期请按照%Y-%m-%d格式输出, 如2023-08-22
@@ -79,6 +97,7 @@ for record in input_records:
         llm_text = llm_result.get("choices", [{}])[0].get("message", {}).get("content", "")
         llm_text = llm_text.replace("```json", "").replace("```", "").strip()
         print(llm_text)
+
         # 尝试解析为 JSON
         try:
             extracted = json.loads(llm_text)
@@ -89,6 +108,7 @@ for record in input_records:
                 "groups": "",
                 "main_text": llm_text.strip()
             }
+
         # 合并原始信息
         final_record = {
             "weibo_id": weibo_id,
@@ -98,16 +118,11 @@ for record in input_records:
         }
         new_records.append(final_record)
 
-        # 写入每日 JSONL 文件
-        # with open(output_file, "a", encoding="utf-8") as f_out:
-        #     f_out.write(json.dumps(final_record, ensure_ascii=False) + "\n")
-
-        # 写入 TinyDB
-        db.insert(final_record)
+        # 写入按 live_date 分库
+        insert_by_date(final_record)
 
     except Exception as e:
         print(f"处理微博 {weibo_id} 出错:", e)
 
 print(f"处理完成，新记录 {len(new_records)} 条")
-# print(f"JSONL 文件: {output_file}")
-print(f"TinyDB 数据库: {db_path}")
+print(f"数据库存放目录: {OUTPUT_DIR}")
